@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\BlogController;
+use App\Http\Controllers\SocialController;
 use Illuminate\Support\Facades\Route;
 
 use App\Http\Controllers\DashboardsController;
@@ -37,6 +38,17 @@ use App\Http\Controllers\IconsController;
 
 // DASHBOARDS //
 Route::get('/', [DashboardsController::class, 'index']);
+Route::get('/register', [AuthenticationController::class, 'showRegister'])->name('register');
+Route::post('/register', [AuthenticationController::class, 'register']);
+
+Route::get('/login', [AuthenticationController::class, 'showLogin'])->name('login');
+Route::post('/login', [AuthenticationController::class, 'login']);
+Route::post('/logout', [AuthenticationController::class, 'logout'])->name('logout');
+
+Route::controller(SocialController::class)->group(function () {
+    Route::get('/auth/google', 'googleLogin')->name('auth.google');
+    Route::get('/auth/google-callback', 'googleAuthentication')->name('auth.google-callback');
+});
 
 Route::get('index', [DashboardsController::class, 'index']);
 
